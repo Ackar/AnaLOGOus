@@ -1,0 +1,24 @@
+This is a simple python implementation of the Logo language.
+It allows to write simple code with and immediate and graphic way of visualising it.
+
+Its goal is to introduce beginners to the basics of programmation using python.
+
+INSTALL
+_______
+
+You need python and the pygame module.
+
+USAGE
+_____
+
+You can launch AnaLOGOus with an interpreter using the following command line :
+
+	$ python -i game.py
+
+Available functions :
+
+	- forward(distance)
+	- turn_left(angle)
+	- turn_right(angle)
+	- change_color((r,g,b))
+	- change_brush_size(size)
