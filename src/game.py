@@ -16,88 +16,70 @@
 import sys, pygame, math
 
 class Game:
-	def __init__(self):
-		self.screen_size = 800, 600
-		self.player_pos = self.screen_size[0] / 2, self.screen_size[1] / 2
-		self.player_angle = 0.
-		self.brush_color = 255, 255, 255
-		self.brush_size = 1
+  def __init__(self):
+    self.screen_size = 800, 600
+    self.player_pos = self.screen_size[0] / 2, self.screen_size[1] / 2
+    self.player_angle = 0.
+    self.brush_color = 255, 255, 255
+    self.brush_size = 1
 
-		# initialization of the screen
-		pygame.init ()
-		self.screen = pygame.display.set_mode (self.screen_size)
+    # initialization of the screen
+    pygame.init ()
+    self.screen = pygame.display.set_mode (self.screen_size)
 
-		# initialization of the drawing surface
-		self.drawing_surface = pygame.Surface (self.screen_size)
+    # initialization of the drawing surface
+    self.drawing_surface = pygame.Surface (self.screen_size)
 
-		# loading the cursor
-		self.cursor = pygame.sprite.Sprite ()
-		self.cursor.image = pygame.image.load("roundcursor.png").convert()
+    # loading the cursor
+    self.cursor = pygame.sprite.Sprite ()
+    self.cursor.image = pygame.image.load("roundcursor.png").convert()
 
+  def forward(self, length):
+    dest = ((self.player_pos[0] + length * math.cos(self.player_angle)),
+        (self.player_pos[1] + length * math.sin(self.player_angle)))
 
-	def forward(self, length):
-		dest = ((self.player_pos[0] + length * math.cos(self.player_angle)),
-                (self.player_pos[1] + length * math.sin(self.player_angle)))
+    # Smooth effect on moving : intermediate points are computed and traced
+    while abs(self.player_pos[0] - dest[0]) > 2 or abs(self.player_pos[1] - dest[1]) > 2:
+      tmp_dest = (self.player_pos[0] + (dest[0] - self.player_pos[0]) / 5.,
+          (self.player_pos[1] + (dest[1] - self.player_pos[1]) / 5.))
+      self.draw_line((int(self.player_pos[0]), int(self.player_pos[1])),
+          (int(tmp_dest[0]), int(tmp_dest[1])))
+      self.player_pos = tmp_dest
+      self.render()
+      pygame.time.delay(10)
 
-		# Smooth effect on moving : intermediate points are computed and traced
-		while abs(self.player_pos[0] - dest[0]) > 2 or abs(self.player_pos[1] - dest[1]) > 2:
-			tmp_dest = (self.player_pos[0] + (dest[0] - self.player_pos[0]) / 5.,
-					(self.player_pos[1] + (dest[1] - self.player_pos[1]) / 5.))
-			self.draw_line((int(self.player_pos[0]), int(self.player_pos[1])),
-                       (int(tmp_dest[0]), int(tmp_dest[1])))
-			self.player_pos = tmp_dest
-			self.render()
-			pygame.time.delay(10)
+    # We draw the last portion of line
+    self.draw_line((int(self.player_pos[0]), int(self.player_pos[1])),
+        (int(dest[0]), int(dest[1])))
+    self.player_pos = dest
+    self.render()
 
-		# We draw the last portion of line
-		self.draw_line((int(self.player_pos[0]), int(self.player_pos[1])),
-                       (int(dest[0]), int(dest[1])))
-		self.player_pos = dest
-		self.render()
+  def turn_left(self, angle):
+    self.player_angle -= angle * (math.pi / 180.)
 
-	def turn_left(self, angle):
-		self.player_angle -= angle * (math.pi / 180.)
+  def turn_right(self, angle):
+    self.player_angle += angle * (math.pi / 180.)
 
-	def turn_right(self, angle):
-		self.player_angle += angle * (math.pi / 180.)
+  def change_color(self, color):
+    self.brush_color = color
 
-	def change_color(self, color):
-		self.brush_color = color
+  def change_brush_size(self, size):
+    self.brush_size = size
 
-	def change_brush_size(self, size):
-		self.brush_size = size
+  def draw_line(self, orig, end):
+    pygame.draw.line (self.drawing_surface, self.brush_color, orig, end,
+                      self.brush_size)
 
-	def draw_line(self, orig, end):
-		pygame.draw.line (self.drawing_surface, self.brush_color, orig, end,
-				self.brush_size)
+  def render(self):
+    self.screen.blit(self.drawing_surface, (0, 0))
+    self.screen.blit(self.cursor.image, (self.player_pos[0] - 10,
+                                         self.player_pos[1] - 10))
+    pygame.display.update()
 
-	def render(self):
-		self.screen.blit(self.drawing_surface, (0, 0))
-		self.screen.blit(self.cursor.image, (self.player_pos[0] - 10,
-			self.player_pos[1] - 10))
-		pygame.display.update()
-
-	def reset_all(self):
-		self.player_pos = self.screen_size[0] / 2, self.screen_size[1] / 2
-		self.player_angle = 0.
-		self.brush_color = 255, 255, 255
-		self.drawing_surface = pygame.Surface (self.screen_size)
+  def reset_all(self):
+    self.player_pos = self.screen_size[0] / 2, self.screen_size[1] / 2
+    self.player_angle = 0.
+    self.brush_color = 255, 255, 255
+    self.drawing_surface = pygame.Surface (self.screen_size)
 
 game = Game ()
-
-# forward definitions (allow direct call of the methods)
-def forward(length):
-	game.forward(length)
-
-def turn_left(angle):
-	game.turn_left(angle)
-
-def turn_right(angle):
-	game.turn_right(angle)
-
-def change_color(color):
-	game.change_color(color)
-
-def change_brush_size(size):
-	game.change_brush_size(size)
-

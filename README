@@ -13,7 +13,7 @@ _____
 
 You can launch AnaLOGOus with an interpreter using the following command line :
 
-	$ python -i game.py
+	$ python -i analogous.py
 
 Available functions :
 
