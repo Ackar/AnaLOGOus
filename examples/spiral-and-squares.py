@@ -19,46 +19,29 @@ sys.path.append(sys.path[0] + '/../src/')
 os.chdir(sys.path[0] + '/../src/')
 from analogous import *
 
-# draw a simple triangle
-def triangle(size):
-  for i in range(3):
-    forward(size)
-    turn_left(120)
+def spiral():
+  angle = 2
+  n = 3500
 
-# draw three triangles (the whole of them forming another triangle)
-def three_triangles (size):
-  triangle(size)
-  forward(size)
-  triangle(size)
-  turn_left(120)
-  forward(size)
-  turn_left(240)
-  triangle(size)
-  turn_left(240)
-  forward(size)
-  turn_left(120)
+  for i in range(n):
+    # compute a new color
+    c = int(i * 255. / n)
+    change_color((100, c, 50))
 
-# recursive sierpinski triangle drawing function
-def sierpinski (size, depth):
-  if not depth:
-    return;
-  change_color((255 / (depth + 1), 100, 0))
-  three_triangles (size)
-  sierpinski (size / 2, depth - 1)
-  if depth - 1:
-    forward(size)
-  sierpinski (size / 2, depth - 1)
-  if depth - 1:
-    turn_left(120)
-    forward(size)
-    turn_left(240)
-  sierpinski (size / 2, depth - 1)
-  if depth - 1:
-    turn_left(240)
-    forward(size)
-    turn_left(120)
+    # draw the line and change slightly widen the angle
+    forward(2)
+    turn_left(angle)
+    angle *= 0.9995
 
-sierpinski(100, 4)
+def square(size):
+  for i in range(4):
+    forward(size)
+    turn_left(90)
+
+spiral()
+for i in range (20, 50, 5):
+  square(i)
+  square(-i)
 
 # wait for windows to be closed
 while 1:
