@@ -39,8 +39,8 @@ class Game:
     self.source_cursor = self.cursor.image
 
     # shift of the cursor so that the center is representing the brush
-    self.cursor_shift = (pygame.Surface.get_width(self.source_cursor) * 0.5,
-                         pygame.Surface.get_height(self.source_cursor) * 0.5)
+    self.cursor_shift = (pygame.Surface.get_width(self.source_cursor) * -0.5,
+                         pygame.Surface.get_height(self.source_cursor) * -0.5)
 
     self.render()
 
@@ -56,6 +56,7 @@ class Game:
           (int(tmp_dest[0]), int(tmp_dest[1])))
       self.player_pos = tmp_dest
       self.render()
+      pygame.time.wait(1)
 
     # We draw the last portion of line
     self.draw_line((int(self.player_pos[0]), int(self.player_pos[1])),
