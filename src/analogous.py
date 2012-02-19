@@ -21,6 +21,9 @@ turn_left = game.turn_left
 turn_right = game.turn_right
 change_color = game.change_color
 change_brush_size = game.change_brush_size
+hide_brush = game.hide_brush
+show_brush = game.show_brush
+toggle_brush = game.toggle_brush
 
 # Colors definitions
 red = 189, 26, 58
@@ -37,6 +40,9 @@ tourner_gauche = turn_left
 tourner_droite = turn_right
 changer_couleur = change_color
 changer_taille = change_brush_size
+lever_crayon = hide_brush
+poser_crayon = show_brush
+basculer_crayon = toggle_brush
 
 # colors
 rouge = red

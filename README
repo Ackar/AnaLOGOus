@@ -6,19 +6,41 @@ Its goal is to introduce beginners to the basics of programmation using python.
 INSTALL
 _______
 
-You need python and the pygame module.
+You need python 2.7 and the pygame module.
 
 USAGE
 _____
 
-You can launch AnaLOGOus with an interpreter using the following command line :
+The goal of this project is to be in the simplest possible way so that
+beginners are not overwhelmed with technical issues.
 
-	$ python -i analogous.py
+For that reason, you can use it in different ways :
+
+  - The simplest way is to write the code in src/my_code.py, you can then
+  launch program.py, the others files will be automatically included and a
+  pause at the end of the drawing will be added :
+
+    $ python my_code.py
+
+  - In an interactive way (with an interactive interpreter) :
+
+    $ python -i analogous.py
+
+  - In any other way, just import analogous into your file.
 
 Available functions :
 
-	- forward(distance)
-	- turn_left(angle)
-	- turn_right(angle)
-	- change_color((r,g,b))
-	- change_brush_size(size)
+  - forward(distance)
+  - turn_left(angle)
+  - turn_right(angle)
+  - change_color((r,g,b))
+  - change_brush_size(size)
+  - hide_brush()
+  - show_brush()
+  - toggle_brush()
+
+AUTHOR
+______
+
+If you have questions or suggestions, feel free to contact me at :
+sylvain.cleymans@epita.fr

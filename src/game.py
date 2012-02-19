@@ -17,11 +17,12 @@ import sys, pygame, math
 
 class Game:
   def __init__(self):
-    self.screen_size = 800, 600
+    self.screen_size = 1000, 800
     self.player_pos = self.screen_size[0] / 2, self.screen_size[1] / 2
     self.player_angle = 0.
     self.brush_color = 255, 255, 255
     self.brush_size = 1
+    self.brush_visible = True
 
     # initialization of the screen
     pygame.init ()
@@ -46,7 +47,6 @@ class Game:
           (int(tmp_dest[0]), int(tmp_dest[1])))
       self.player_pos = tmp_dest
       self.render()
-      pygame.time.delay(10)
 
     # We draw the last portion of line
     self.draw_line((int(self.player_pos[0]), int(self.player_pos[1])),
@@ -66,9 +66,19 @@ class Game:
   def change_brush_size(self, size):
     self.brush_size = size
 
+  def hide_brush(self):
+    self.brush_visible = False
+
+  def show_brush(self):
+    self.brush_visible = True
+
+  def toggle_brush(self):
+    self.brush_visible = not self.brush_visible
+
   def draw_line(self, orig, end):
-    pygame.draw.line (self.drawing_surface, self.brush_color, orig, end,
-                      self.brush_size)
+    if self.brush_visible:
+      pygame.draw.line (self.drawing_surface, self.brush_color, orig, end,
+                        self.brush_size)
 
   def render(self):
     self.screen.blit(self.drawing_surface, (0, 0))
