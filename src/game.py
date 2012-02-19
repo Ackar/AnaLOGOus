@@ -33,7 +33,16 @@ class Game:
 
     # loading the cursor
     self.cursor = pygame.sprite.Sprite ()
-    self.cursor.image = pygame.image.load("roundcursor.png").convert()
+    self.cursor.image = pygame.image.load("arrow.png").convert_alpha()
+
+    # saving the source cursor (used for each rotation)
+    self.source_cursor = self.cursor.image
+
+    # shift of the cursor so that the center is representing the brush
+    self.cursor_shift = (pygame.Surface.get_width(self.source_cursor) * 0.5,
+                         pygame.Surface.get_height(self.source_cursor) * 0.5)
+
+    self.render()
 
   def forward(self, length):
     dest = ((self.player_pos[0] + length * math.cos(self.player_angle)),
@@ -55,10 +64,20 @@ class Game:
     self.render()
 
   def turn_left(self, angle):
-    self.player_angle -= angle * (math.pi / 180.)
+    self.player_angle -= math.radians(angle)
+    self.update_cursor()
 
   def turn_right(self, angle):
-    self.player_angle += angle * (math.pi / 180.)
+    self.player_angle += math.radians(angle)
+    self.update_cursor()
+
+  def update_cursor(self):
+    self.cursor.image = pygame.transform.rotate(self.source_cursor,
+                                                math.degrees(-self.player_angle))
+    self.cursor_shift = (pygame.Surface.get_width(self.cursor.image) * -0.5,
+                         pygame.Surface.get_height(self.cursor.image) * -0.5)
+    self.render()
+
 
   def change_color(self, color):
     self.brush_color = color
@@ -82,8 +101,10 @@ class Game:
 
   def render(self):
     self.screen.blit(self.drawing_surface, (0, 0))
-    self.screen.blit(self.cursor.image, (self.player_pos[0] - 10,
-                                         self.player_pos[1] - 10))
+    self.screen.blit(self.cursor.image, (self.player_pos[0] +
+                                         self.cursor_shift[0],
+                                         self.player_pos[1] +
+                                         self.cursor_shift[1]))
     pygame.display.update()
 
   def reset_all(self):
