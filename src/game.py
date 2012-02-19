@@ -17,7 +17,8 @@ import sys, pygame, math
 
 class Game:
   def __init__(self):
-    self.screen_size = 1000, 800
+    self.screen_size = 600, 400
+    self.sleep_time = 10
     self.player_pos = self.screen_size[0] / 2, self.screen_size[1] / 2
     self.player_angle = 0.
     self.brush_color = 255, 255, 255
@@ -56,7 +57,7 @@ class Game:
           (int(tmp_dest[0]), int(tmp_dest[1])))
       self.player_pos = tmp_dest
       self.render()
-      pygame.time.wait(1)
+      pygame.time.wait(self.sleep_time)
 
     # We draw the last portion of line
     self.draw_line((int(self.player_pos[0]), int(self.player_pos[1])),
