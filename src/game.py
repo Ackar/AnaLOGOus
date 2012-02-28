@@ -109,7 +109,9 @@ class Game:
                                          self.cursor_shift[1]))
     pygame.display.update()
     for event in pygame.event.get():
-      if event.type == pygame.QUIT: sys.exit()
+      if event.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit()
 
   def reset_all(self):
     self.player_pos = self.screen_size[0] / 2, self.screen_size[1] / 2
